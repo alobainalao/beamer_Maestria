@@ -1,0 +1,77 @@
+/* src/reveal-beamer.css */
+.reveal {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: #fff;
+  color: #1a1a1a;
+  font-size: 26px;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  color: #003366;
+  font-weight: bold;
+}
+
+.reveal .slides {
+  padding: 40px 70px;
+}
+
+.reveal section {
+  text-align: left;
+}
+
+.reveal section img {
+  max-width: 85%;
+  margin: 1rem auto;
+  display: block;
+}
+
+.reveal ul {
+  padding-left: 1.5rem;
+}
+
+.reveal li {
+  margin-bottom: 0.5rem;
+}
+
+.reveal code {
+  background-color: #f2f2f2;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.beamer-footer {
+  font-size: 0.7em;
+  color: #555;
+  border-top: 1px solid #ccc;
+  margin-top: 1.5rem;
+  padding-top: 0.5rem;
+  text-align: center;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #003366;
+  color: white;
+  padding: 0.4rem 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 9999;
+  font-size: 0.9em;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
