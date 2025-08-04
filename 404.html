@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redireccionando...</title>
+    <script>
+      // Extrae la ruta interna original (sin el basename)
+      const redirectTo = window.location.pathname.replace('/beamer_Maestria', '');
+
+      // Construye la nueva URL para cargar index.html y pasar la ruta original como parámetro
+      const newUrl = '/beamer_Maestria/index.html?redirect=' + encodeURIComponent(redirectTo + window.location.search);
+
+      // Redirige al index.html para que React maneje la navegación
+      window.location.replace(newUrl);
+    </script>
+  </head>
+  <body>
+    <p>Redirigiendo a la aplicación...</p>
+  </body>
+</html>
