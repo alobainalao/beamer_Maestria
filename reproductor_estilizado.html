@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulaciones en Video</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f9;
+      color: #333;
+    }
+
+    header {
+      width: 100%;
+      height: 10%;
+      background-color: #2d3e50;
+      color: white;
+      padding: 1em 2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .select-wrapper {
+      position: relative;
+      width: 280px;
+    }
+
+    .select-wrapper select {
+      width: 80%;
+      padding: 0.7em 2.5em 0.7em 1em;
+      border-radius: 6px;
+      border: none;
+      font-size: 1em;
+      appearance: none;
+      background: white url("data:image/svg+xml;utf8,<svg fill='gray' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 10px center;
+      background-size: 16px;
+    }
+
+    main {
+      margin-top: 10vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 90vh;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .video-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0);
+      border: none;
+      color: white;
+      font-size: 2.5rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 10;
+      user-select: none;
+    }
+
+    .video-container:hover .video-button {
+      opacity: 1;
+    }
+
+    .video-button.left {
+      left: 10px;
+    }
+
+    .video-button.right {
+      right: 10px;
+    }
+
+    option[disabled] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Simulaciones en Video</h1>
+    <div class="select-wrapper">
+      <select id="videoSelect" onchange="changeVideo()" required>
+        <option value="" disabled selected hidden>Selecciona un video...</option>
+        <option value="h.mp4">Altura piezométrica</option>
+        <option value="hv.mp4">Flujo y piezometría</option>
+        <option value="v.mp4">Flujo del agua</option>
+        <option value="cv.mp4">Flujo y contaminante</option>
+        <option value="c.mp4">Contaminante</option>
+      </select>
+    </div>
+  </header>
+
+  <main>  
+    <div class="video-container">
+      <video id="videoPlayer" controls>
+        <source src="" type="video/mp4" />
+        Tu navegador no soporta la etiqueta de video.
+      </video>
+      <button id="prevBtn" onclick="changeToBackVideo()" class="video-button left">&#x25C0;</button>
+      <button id="nextBtn" onclick="changeToNextVideo()" class="video-button right">&#x25B6;</button>
+    </div>
+  </main>
+
+<script>
+  function changeVideo() {
+    const video = document.getElementById("videoPlayer");
+    const videoFile = document.getElementById("videoSelect").value;  // Obtener el archivo de video seleccionado
+    video.src = videoFile;  // Asignar la fuente del video
+    video.loop = true;  // 🔁 Hacer que se repita en loop
+    video.load();  // Cargar el video
+    video.play();  // Reproducir el video
+
+  }
+
+  window.onload = function () {
+    // Obtener parámetros de la URL
+    const params = new URLSearchParams(window.location.search);
+    const videoFile = params.keys().next().value;  // Obtener el primer parámetro de la URL, que es el nombre del video
+
+    if (videoFile) {
+      const video = document.getElementById('videoPlayer');
+      video.src = videoFile;  // Asignar el video desde la URL
+      video.loop = true;  // 🔁 Hacer que se repita en loop
+      document.getElementById('videoSelect').value = videoFile;  // Actualizar el valor del selector de video
+      updateNavigationButtons();
+      video.load();  // Cargar el video
+      video.play();  // Reproducir el video
+      
+    }
+  };
+
+  function changeToNextVideo() {
+    const select = document.getElementById('videoSelect');
+    let nextIndex = select.selectedIndex + 1;
+
+    if (nextIndex >= select.options.length) {
+      nextIndex = 1; // Volver al primer video si ya estamos al final
+    }
+
+    select.selectedIndex = nextIndex;
+    changeVideo(); // Cambiar al siguiente video
+  }
+
+  function changeToBackVideo() {
+    const select = document.getElementById('videoSelect');
+    let preIndex = select.selectedIndex -1;
+
+    if (preIndex <= 0) {
+      select.selectedIndex = select.options.length-1; // Ir al último video
+    } else {
+      select.selectedIndex = preIndex;
+    }
+
+    changeVideo();
+  }
+
+  function updateNavigationButtons() {
+  const select = document.getElementById('videoSelect');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  const onlyOneOption = select.options.length <= 1;
+
+  prevBtn.disabled = onlyOneOption;
+  nextBtn.disabled = onlyOneOption;
+}
+</script>
+
+</body>
+</html>
