@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/beamer_Maestria/static/css/main.2cafaab2.css",
-    "main.js": "/beamer_Maestria/static/js/main.0cf30946.js",
+    "main.js": "/beamer_Maestria/static/js/main.7686b70e.js",
     "index.html": "/beamer_Maestria/index.html",
     "main.2cafaab2.css.map": "/beamer_Maestria/static/css/main.2cafaab2.css.map",
-    "main.0cf30946.js.map": "/beamer_Maestria/static/js/main.0cf30946.js.map"
+    "main.7686b70e.js.map": "/beamer_Maestria/static/js/main.7686b70e.js.map"
   },
   "entrypoints": [
     "static/css/main.2cafaab2.css",
-    "static/js/main.0cf30946.js"
+    "static/js/main.7686b70e.js"
   ]
 }
