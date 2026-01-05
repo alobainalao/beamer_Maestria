@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import './SlideShow.css';
 import { FaExpandArrowsAlt, FaCompressArrowsAlt } from 'react-icons/fa';
 

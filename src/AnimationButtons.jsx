@@ -2,20 +2,18 @@ import React, { useEffect } from 'react';
 import { FaPlayCircle } from 'react-icons/fa';
 import './SlideShow.css';
 
-const AnimationButtons = () => {
+const AnimationButtons = ({ metodo }) => {
     const videoMap = {
         1: 'h.mp4',
-        2: 'hv.mp4',
-        3: 'v.mp4',
-        4: 'cv.mp4',
-        5: 'c.mp4'
+        2: 'v.mp4',
+        3: 'c.mp4'
     };
 
-    const openAnimation = (filename) => {
+    const openAnimation = (metodo, filename) => {
         const width = window.screen.availWidth;
         const height = window.screen.availHeight;
         window.open(
-            `/video-player?video=${filename}`,
+            `${process.env.PUBLIC_URL}/#/video-player?metodo=${metodo}&video=${filename}`,
             '_blank',
             `width=${width},height=${height},left=0,top=0,toolbar=no,menubar=no,scrollbars=no,resizable=no`
         );
@@ -36,16 +34,16 @@ const AnimationButtons = () => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [metodo]);
 
     return (
         <div className="animation-buttons-vertical">
-            {[1, 2, 3, 4, 5].map((n) => (
+            {[1, 2, 3].map((n) => (
                 <button
                     key={n}
                     className="animation-icon-button"
-                    onClick={() => openAnimation(videoMap[n])}
-                    title={`Simulación ${n}`}
+                    onClick={() => openAnimation(metodo,videoMap[n])}
+                    title={`SimulaciÃ³n ${n}`}
                 >
                     <FaPlayCircle size={40} />
                 </button>

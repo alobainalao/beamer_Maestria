@@ -5,16 +5,16 @@ import AnimationButtons from './AnimationButtons.jsx';
 import './SlideShow.css';
 
 const Slideshow = () => {
-    const totalSlides = 31;
+    const totalSlides = 22;
 
     // ⏱ Tiempo total esperado (30 minutos en ms)
-    const totalExpectedTime = 1800000;
+    const totalExpectedTime = 900000;
 
     // ⏱ Tiempos por slide (en segundos)
     const slideDurations = [
-        24, 59, 88, 59, 47, 24, 35, 71, 77, 71,
-        65, 106, 71, 71, 35, 71, 53, 24, 59, 65,
-        53, 35, 65, 212, 53, 59, 65, 59, 12, 12, 12
+        24, 60, 96, 50, 40, 50, 80, 30, 40, 30,
+        30, 30, 30, 40, 30, 30, 60, 60, 30, 30, 
+        15, 15
     ]; // 31 slides
 
     const [index, setIndex] = useState(0);
@@ -47,9 +47,9 @@ const Slideshow = () => {
         const handleKey = (e) => {
             e.preventDefault();
 
-            if (['ArrowRight', 'ArrowDown','PageDown'].includes(e.key)) next();
+            if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) next();
             else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) prev();
-            else if (['f', 'Enter', , 'AudioVolumeUp'].includes(e.key)) {
+            else if (['f', 'Enter', 'AudioVolumeUp'].includes(e.key)) {
                 const elem = document.documentElement;
                 if (!document.fullscreenElement) {
                     elem.requestFullscreen();
@@ -65,19 +65,45 @@ const Slideshow = () => {
             const isInteractive = e.target.closest('button, a, [role="button"], [tabindex]');
             if (isInteractive) return;
             if (e.button === 0) prev();
-            else if (e.button === 2) next(); 
+            else if (e.button === 2) next();
+        };
+
+        // Variables para detectar swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const handleTouchStart = (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        };
+
+        const handleTouchEnd = (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        };
+
+        const handleGesture = () => {
+            const delta = touchEndX - touchStartX;
+            if (Math.abs(delta) < 50) return; // ignora deslizamientos muy cortos
+
+            if (delta > 0) prev(); // desliza derecha → ir atrás
+            else next();           // desliza izquierda → ir adelante
         };
 
         window.addEventListener('keydown', handleKey);
         window.addEventListener('mousedown', handleClick);
         window.addEventListener('contextmenu', (e) => e.preventDefault());
+        window.addEventListener('touchstart', handleTouchStart);
+        window.addEventListener('touchend', handleTouchEnd);
 
         return () => {
             window.removeEventListener('keydown', handleKey);
             window.removeEventListener('mousedown', handleClick);
             window.removeEventListener('contextmenu', (e) => e.preventDefault());
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchend', handleTouchEnd);
         };
     }, []);
+
 
 
     useEffect(() => {
@@ -101,7 +127,8 @@ const Slideshow = () => {
         <div className="slideshow-container">
             <Controls onNext={next} onPrev={prev} fullscreen={fullscreen} handleFullscreen={setFullscreen}/>
             <div className="image-wrapper">
-                {index === 23 && <AnimationButtons />}
+                {index === 2  && <AnimationButtons metodo={'mef'}/>}
+                {index === 6  && <AnimationButtons metodo={'bfr'}/>}
                 <ProgressIndicator
                     time={expectedProgressTime}
                     totalTime={totalExpectedTime}
@@ -115,7 +142,7 @@ const Slideshow = () => {
                     color="red"
                 />
                 <img
-                    src={`/slides/slide${index + 1}.png`}
+                    src={`${process.env.PUBLIC_URL}/slides/slide${index + 1}.png`}
                     alt="Slide"
                     className="slide-image"
                 />
